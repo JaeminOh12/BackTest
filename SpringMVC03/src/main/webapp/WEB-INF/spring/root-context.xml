@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- DB연결작업(HikariCP 히카리CP) -->
+	
+	
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig"> <!-- bean => 객체를 생성하는 태그  -->
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/com"/>
+		<property name="username" value="com"/>
+		<property name="password" value="com01"/>
+	</bean>
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+		<constructor-arg ref="hikariConfig"/>
+	</bean>
+	
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	<!-- mapper를 메모리에 자동으로 로딩시키는것(spring-jdbc) -->
+	<mybatis-spring:scan base-package="kr.smhrd.mapper"/>
+</beans>
+
+
+
+
+
+
+
+
